@@ -9,6 +9,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -25,6 +28,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.*
+import jt.projects.jetpackcomposeexample.data.PersonItemRow
+import jt.projects.jetpackcomposeexample.data.getPersonTestData
+import jt.projects.jetpackcomposeexample.ui.theme.Gray100
 
 
 class MainActivity : ComponentActivity() {
@@ -34,30 +40,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.Top
-            ) {
-
+            Column() {
                 circleItem()
 
-                listItem("Ivan", "manager")
-                listItem("Petr", "programmer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
-                listItem("Igor", "designer")
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.LightGray)
+                ) {
+                    itemsIndexed(getPersonTestData()) { _, item ->
+                        PersonItemRow(item)
+                    }
+
+                }
 
             }
-
-
         }
     }
 
@@ -128,7 +125,7 @@ fun listItem(name: String, profession: String) {
                         .clip(CircleShape)
                 )
                 Column(modifier = Modifier.padding(start = 16.dp)) {
-                    showText(counter.value.toString())
+                    showText("$name, counter: [${counter.value}]")
                     showText(profession)
                 }
 
